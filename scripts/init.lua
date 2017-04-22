@@ -5,6 +5,8 @@ local simple_move = scripts.systems.simple_move
 scripts.world_update = function(dt)
     collision_update(dt)
     simple_move(dt)
+    scripts.systems.radarNoise(dt)
+
 end
 
 function scripts.handle_input(dt)

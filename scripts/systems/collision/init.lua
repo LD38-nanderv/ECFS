@@ -16,14 +16,14 @@ s.get_world = function()
 end
 local a = 0
 s.ray = function(entity1, from, to)
-    local x3, y3, x4, y4 = entity1.position.x + from.x - to.x, entity1.position.y + from.y - to.y, entity1.position.x + to.x, entity1.position.y + to.y
+    local x3, y3, x4, y4 = entity1.position.x + from.x , entity1.position.y + from.y, entity1.position.x + to.x, entity1.position.y + to.y
     objs = world:querySegment(x3, y3, x4, y4)
 
 
     for k, entity2 in ipairs(objs) do
         if entity1 ~= entity2 then
 
-            local p2 = lib.rotate_poly(entity2, true)
+            local p2 = lib.rotate_poly(entity2)
             local d, x1, y1, x2, y2 = lib.line_in_polygon(p2, { x = from.x, y = from.y }, to, entity2.position, entity1.position)
 
             if d then
@@ -35,22 +35,22 @@ s.ray = function(entity1, from, to)
                 local xr = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
                 local yr = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
 
-                return entity2, xr, yr
+                                return entity2, xr, yr
+
             end
         end
     end
     return nil
 end
 local function checkCollision(entity1)
-    local shape1 = nil
-    local x1, y1 = entity1.position.x, entity1.position.y
+    local shape1
     if s.circles[entity1] then
         shape1 = s.circles[entity1]
     else
         shape1 = -s.boxes[entity1].minx
     end
     -- Use bump to check if entities are near enough. It uses either a circle around it or a box around it. The circle is rotation-safe, the box isn't.
-    local _, _, cols, len = world:move(entity1, entity1.position.x - shape1, entity1.position.y - shape1, function() return "cross" end)
+    local _, _, cols = world:move(entity1, entity1.position.x - shape1, entity1.position.y - shape1, function() return "cross" end)
 
     for _, b in ipairs(cols) do
         local entity2 = b.other
@@ -70,7 +70,7 @@ local function checkCollision(entity1)
                 end
 
                 -- polygon collision
-                local collided = lib.polygon_in_polygon(p1, p2, entity1.position, entity2.position)
+                local collided = lib.point_in_polygon(p2,{x=0,y=0}, entity2.position, entity1.position)
 
                 -- Actual logic
                 if collided then

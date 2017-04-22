@@ -124,10 +124,21 @@ end
 
 core.rotate_point = function(p, angle, bool)
 
+    local s = math.sin(angle)
+
+    local c = math.cos(angle)
+
+    -- rotate point
+    local xnew = p.x * c - p.y * s
+    local ynew = p.x * s + p.y * c
+
+    -- translate point back:
+    return { x = xnew, y = ynew }
+end
+
+core.rotate_point2 = function(p, angle, bool)
+
     local s = -math.sin(angle)
-    if bool then
-        s = -s
-    end
     local c = math.cos(angle)
 
     -- rotate point
