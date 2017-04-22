@@ -7,7 +7,7 @@ return function(dt)
         love.graphics.circle("line", v.position.x, v.position.y, 10)
         for _, w in ipairs(v.wiskers) do
             local z = core.rotate_point(w, v.position.rotation)
-            love.graphics.line(sx, sy, z.x + sx, z.y+sy)
+            love.graphics.line(sx, sy, z.x + sx, z.y + sy)
         end
         for _, w in ipairs(COLS) do
             love.graphics.circle("line", w.x, w.y, 30)

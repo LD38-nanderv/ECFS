@@ -10,8 +10,17 @@ function love.load()
     core.system.add(scripts.systems.collision.init)
 
 
-    local ent = { collision = { type = "test", box = true, polygon = { { x = -1, y = 0 }, { x = 0, y = 1 }, { x = 1, y = 0 }, { x = 0, y = -1 } },
-        dynamic = true }, position = { x = 250, y = 350, rotation =math.pi }  , mover={speed=10,towards=math.pi}, wiskers = { { c=1, x = 200, y = 200 }, {c=2, x=0, y=200}, { c=3, x = -200, y = 200 } }}
+    local ent = {
+        collision = {
+            type = "test",
+            box = true,
+            polygon = { { x = -1, y = 0 }, { x = 0, y = 1 }, { x = 1, y = 0 }, { x = 0, y = -1 } },
+            dynamic = true
+        },
+        position = { x = 250, y = 350, rotation = math.pi },
+        mover = { speed = 10, towards = math.pi },
+        wiskers = { { c = 1, x = 200, y = 200 }, { c = 2, x = 0, y = 200 }, { c = 3, x = -200, y = 200 } }
+    }
     core.entity.add(ent)
 
     -- add handlers
@@ -36,19 +45,19 @@ function love.update(dt)
     scripts.handle_pre_world_update(dt)
     scripts.world_update(dt)
     scripts.handle_checkers(dt)
-
 end
+
 BG = love.graphics.newImage("bg.png")
 
 function love.draw()
-    love.graphics.draw(BG,0,0)
+    love.graphics.draw(BG, 0, 0)
     love.graphics.push()
     local p = E.move[1].position
 
     -- rotate around the center of the screen by angle radians
 
-    scripts.systems.collision.debug_draw(dt)
-    scripts.systems.draw_wiskers(dt)
+    --scripts.systems.collision.debug_draw(dt)
+    --scripts.systems.draw_wiskers(dt)
     love.graphics.pop()
     scripts.systems.radar()
     scripts.systems.heading()

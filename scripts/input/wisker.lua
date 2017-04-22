@@ -11,13 +11,12 @@ return function(dt)
             if aa then
                 local d, e = b - v.position.x, c - v.position.y
 
-                a[w.c] = { entity = a, x = b, y = c, d=d, e=e, dist = math.sqrt(d*d+e*e) }
+                a[w.c] = { entity = a, x = b, y = c, d = d, e = e, dist = math.sqrt(d * d + e * e) }
                 beep = true
             else
-                a[w.c] = { dist = 1/0 }
+                a[w.c] = { dist = 1 / 0 }
             end
         end
-            core.add_event("pre", scripts.events.create_wisker_collision_event(v, a))
-
+        core.add_event("pre", scripts.events.create_wisker_collision_event(v, a))
     end
 end
