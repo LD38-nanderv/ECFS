@@ -40,3 +40,5 @@ assets*
 *.x86_64
 *.hex
 
+ECFS.iml
+.idea/
