@@ -5,7 +5,8 @@ return function(dt)
         local a = {}
         local beep = false
         for l, w in ipairs(v.wiskers) do
-            local aa, b, c = scripts.systems.collision.init.ray(v, { x = 0, y = 0 }, { x = w.x, y = w.y })
+            local z = core.rotate_point(w, v.position.rotation)
+            local aa, b, c = scripts.systems.collision.init.ray(v, { x = 0, y = 0 }, { x = z.x, y = z.y })
 
             if aa then
                 a[w] = { entity = a, x = b, y = c }

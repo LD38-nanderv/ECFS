@@ -1,13 +1,16 @@
 scripts = scripts or {}
 local collision_update = scripts.systems.collision.init.functions.update
+local simple_move = scripts.systems.simple_move
 
 scripts.world_update = function(dt)
     collision_update(dt)
+    simple_move(dt)
 end
 
 function scripts.handle_input(dt)
     scripts.input.wasd(dt)
     scripts.input.wisker(dt)
+    scripts.input.click(dt)
 end
 
 function scripts.handle_pre_world_update(dt)

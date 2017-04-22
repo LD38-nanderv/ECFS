@@ -124,7 +124,7 @@ end
 
 core.rotate_point = function(p, angle)
 
-    local s = math.sin(angle)
+    local s = -math.sin(angle)
     local c = math.cos(angle)
 
     -- rotate point
