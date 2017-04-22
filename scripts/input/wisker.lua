@@ -9,14 +9,15 @@ return function(dt)
             local aa, b, c = scripts.systems.collision.init.ray(v, { x = 0, y = 0 }, { x = z.x, y = z.y })
 
             if aa then
-                a[w] = { entity = a, x = b, y = c }
                 local d, e = b - v.position.x, c - v.position.y
-                print(d, e, math.sqrt(d * d + e * e))
+
+                a[w.c] = { entity = a, x = b, y = c, d=d, e=e, dist = math.sqrt(d*d+e*e) }
                 beep = true
+            else
+                a[w.c] = { dist = 1/0 }
             end
         end
-        if beep then
             core.add_event("pre", scripts.events.create_wisker_collision_event(v, a))
-        end
+
     end
 end

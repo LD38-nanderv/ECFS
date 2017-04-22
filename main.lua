@@ -10,8 +10,8 @@ function love.load()
     core.system.add(scripts.systems.collision.init)
 
 
-    local ent = { collision = { type = "test", box = true, polygon = { { x = -10, y = 0 }, { x = 0, y = 10 }, { x = 10, y = 0 }, { x = 0, y = -10 } },
-        dynamic = true }, position = { x = 250, y = 250, rotation =math.pi }  , mover={speed=20,towards=math.pi}, wiskers = { { x = 200, y = 200 }, {x=0, y=200}, { x = -200, y = 200 } }}
+    local ent = { collision = { type = "test", box = true, polygon = { { x = -1, y = 0 }, { x = 0, y = 1 }, { x = 1, y = 0 }, { x = 0, y = -1 } },
+        dynamic = true }, position = { x = 250, y = 350, rotation =math.pi }  , mover={speed=10,towards=math.pi}, wiskers = { { c=1, x = 200, y = 200 }, {c=2, x=0, y=200}, { c=3, x = -200, y = 200 } }}
     core.entity.add(ent)
 
     -- add handlers
@@ -25,7 +25,7 @@ function love.load()
 
     -- add block
     local c = { type = "test", box = true, polygon = { { x = -100, y = 0 }, { x = 0, y = 100 }, { x = 100, y = 0 }, { x = 0, y = -100 } }, dynamic = true }
-    local ent = { collision = c, position = { x = 450, y = 450, rotation = 0 } }
+    local ent = { collision = c, position = { x = 250, y = 0, rotation = 0 } }
     core.entity.add(ent)
 end
 
@@ -44,14 +44,9 @@ function love.draw()
     love.graphics.draw(BG,0,0)
     love.graphics.push()
     local p = E.move[1].position
-    local width = love.graphics.getWidth()
-    local height = love.graphics.getHeight()
+
     -- rotate around the center of the screen by angle radians
-    love.graphics.translate(width/2, height/2)
-    love.graphics.rotate(-p.rotation+math.pi)
-    love.graphics.translate(-width/2, -height/2)
-    --love.graphics.rotate(-p.rotation)
-    love.graphics.translate( -p.x+208, -p.y+208 )
+
     scripts.systems.collision.debug_draw(dt)
     scripts.systems.draw_wiskers(dt)
     love.graphics.pop()

@@ -152,10 +152,10 @@ f.polygon_in_polygon = function(polygon2, polygon, position2, position)
 end
 
 
-f.rotate_poly = function(entity)
+f.rotate_poly = function(entity, bool)
     local poly = {}
     for k, v in ipairs(entity.collision.polygon) do
-        poly[#poly + 1] = core.rotate_point(v, entity.position.rotation)
+        poly[#poly + 1] = core.rotate_point(v, entity.position.rotation, bool)
     end
     return poly
 end

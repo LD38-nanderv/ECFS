@@ -23,7 +23,7 @@ s.ray = function(entity1, from, to)
     for k, entity2 in ipairs(objs) do
         if entity1 ~= entity2 then
 
-            local p2 = lib.rotate_poly(entity2)
+            local p2 = lib.rotate_poly(entity2, true)
             local d, x1, y1, x2, y2 = lib.line_in_polygon(p2, { x = from.x, y = from.y }, to, entity2.position, entity1.position)
 
             if d then

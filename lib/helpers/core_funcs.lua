@@ -122,9 +122,12 @@ core.DoAll = function(...)
     end
 end
 
-core.rotate_point = function(p, angle)
+core.rotate_point = function(p, angle, bool)
 
     local s = -math.sin(angle)
+    if bool then
+        s = -s
+    end
     local c = math.cos(angle)
 
     -- rotate point
