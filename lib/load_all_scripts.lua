@@ -49,4 +49,3 @@ local function recursiveEnumerate(folder, fileTree, first)
 end
 
 recursiveEnumerate("scripts", "", true)
-pprint(scripts)

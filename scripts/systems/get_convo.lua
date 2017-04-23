@@ -20,19 +20,28 @@ end
 
 
 JSON= require "lib.JSON" -- one-time load of the routines
-local raw_json_text =love.filesystem.read("data/test.json")
-CONVO = JSON:decode(raw_json_text) -- decode example
-
-
-current = CONVO[1]
+CONVO = nil
+current = nil
 CONVO_STATE = {}
-for k,v in ipairs(CONVO) do
-    CONVO[v.id] = v
-    CONVO[k] = nil
+function load_new_CONVO(file)
+    local raw_json_text =love.filesystem.read("data/"..file)
+    CONVO = JSON:decode(raw_json_text) -- decode example
+
+
+    current = CONVO[1]
+    for k,v in ipairs(CONVO) do
+        CONVO[v.id] = v
+        CONVO[k] = nil
+    end
+
 end
---current = CONVO[current.choices[1]]
-pprint(CONVO)
+load_new_CONVO("test.json")
+
 local function interpret(state)
+
+    if state.name and string.sub(state.name, 1, 4) == "!@#$" then
+        load_new_CONVO(string.sub(state.name, 5))
+    end
     if state.type == "Set" then
         CONVO_STATE[state.variable] = state.value
         if state.next then
@@ -47,7 +56,6 @@ local function interpret(state)
         end
     end
     if state.type == "Branch" then
-        pprint(state.branches)
         if CONVO_STATE[state.variable] and state.branches[CONVO_STATE[state.variable]] then
             Core.propagate_state(state.branches[CONVO_STATE[state.variable]])
         elseif state.branches._default then
@@ -58,9 +66,7 @@ local function interpret(state)
     end
 end
 function Core.propagate_state(next)
-    pprint(next)
     local nxt = CONVO[next]
-    pprint(nxt)
     current = nxt
     interpret(nxt)
 end
