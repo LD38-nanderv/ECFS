@@ -91,7 +91,7 @@ updaters = {
             STATE = "play"
             CONVO_STATE = {}
             start_CONVO()
-            E.move[1].position = { x = 0, y = 0, rotation = math.pi }
+            E.move[1].position = { x = 1200, y = 1200, rotation = math.pi }
             E.move[1].mover.towards = math.pi
         end
     end,
@@ -111,8 +111,8 @@ function love.update(dt)
 end
 
 BG = love.graphics.newImage("bg.png")
-F24 =         love.graphics.newFont(24)
-F14 =        love.graphics.newFont(14)
+F24 = love.graphics.newFont(24)
+F14 = love.graphics.newFont(14)
 ii = 0
 sentences = { "One day I woke up, and I was here", "I don't know anything from before I got here", "I'm all alone in this strange vessel, slowly moving through a strange world." }
 drawers = {
@@ -145,7 +145,7 @@ drawers = {
 
         love.graphics.printf("Your vessel crashed, and you are no more.", 82, 200, 300, "center")
         love.graphics.setFont(F24)
-        love.graphics.setColor(255, 255, 255, 255 * math.max(1, math.min(startThisFrame-10)))
+        love.graphics.setColor(255, 255, 255, 255 * math.max(1, math.min(startThisFrame - 10)))
         love.graphics.setFont(F14)
         love.graphics.print("Click to restart", 75, 350)
         love.graphics.setColor(255, 255, 255, 255)

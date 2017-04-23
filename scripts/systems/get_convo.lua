@@ -23,15 +23,6 @@ function load_new_CONVO(file)
 
     end
 end
-function print_FILE(file)
-    local raw_json_text =love.filesystem.read("data/"..file)
-    local c  = JSON:decode(raw_json_text) -- decode example
-    for k,v in ipairs(c) do
-        if v.name then
-            print(v.name)
-        end
-    end
-end
 
 function start_CONVO()
     load_new_CONVO("test.json")
