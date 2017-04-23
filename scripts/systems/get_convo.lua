@@ -1,44 +1,23 @@
 Core = Core or {}
-function file_exists(file)
-    local f = io.open(file, "rb")
-    if f then f:close() end
-    return f ~= nil
-end
-
--- get all lines from a file, returns an empty
--- list/table if the file does not exist
-function lines_from(file)
-    if not file_exists(file) then return "" end
-    lines = ""
-    for line in io.lines(file) do
-        lines = lines.. line.."\n"
-    end
-    return lines
-end
-
--- tests the functions above
-
 
 JSON= require "lib.JSON" -- one-time load of the routines
 CONVO = nil
 current = nil
 CONVO_STATE = {}
+
 function load_new_CONVO(file)
     local raw_json_text =love.filesystem.read("data/"..file)
     CONVO = JSON:decode(raw_json_text) -- decode example
-
-
     current = CONVO[1]
     for k,v in ipairs(CONVO) do
         CONVO[v.id] = v
         CONVO[k] = nil
     end
-
 end
+
 load_new_CONVO("test.json")
 
 local function interpret(state)
-
     if state.name and string.sub(state.name, 1, 4) == "!@#$" then
         load_new_CONVO(string.sub(state.name, 5))
     end
@@ -65,12 +44,12 @@ local function interpret(state)
         end
     end
 end
+
 function Core.propagate_state(next)
     local nxt = CONVO[next]
     current = nxt
     interpret(nxt)
 end
-
 
 return function()
     love.graphics.printf(current.name, 50,80,380)
