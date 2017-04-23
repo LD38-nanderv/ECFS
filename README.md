@@ -1,3 +1,8 @@
+# LD 38 Game
+This is a game made for Ludum Dare 38. 
+
+It's based on an Entity Component System. For lazyness' sake, the docs of that system have been kept in there.
+
 # Entity Component Filter System
 Entity Component Filter System for Love2d. First step: writing down what the hell it even means.
 
