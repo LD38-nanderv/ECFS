@@ -10,7 +10,12 @@ for j=1,3 do
     notes[j] = {}
     for i=1,10 do
         notes[j][i] = love.audio.newSource("music/"..i..".ogg",true)
-        notes[j][i]:setVolume(0.5)
+        if j == 2 then
+            notes[j][i]:setVolume(0.7)
+        else
+            notes[j][i]:setVolume(1)
+        end
+        notes[j][i]:setPosition(-10*(2-j),5,0)
     end
 end
 
@@ -32,8 +37,8 @@ function sound()
         end
         prev =  math.floor((2000-dist)/200)
         prev = math.max(stage, math.min(10,prev))
-        notes[1][prev]:seek(0.1)
-        notes[1][prev]:play()
+        notes[stage][prev]:seek(0.1)
+        notes[stage][prev]:play()
     end
 end
 return function(dt)

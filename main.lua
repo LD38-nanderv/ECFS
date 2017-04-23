@@ -8,7 +8,6 @@ function love.load()
     require 'scripts'
     scripts.systems.collision.init.functions.reset()
     core.system.add(scripts.systems.collision.init)
-    require 'scripts.get_convo'
 
     local ent = {
         collision = {
@@ -52,11 +51,11 @@ function love.load()
     DRONE:setLooping(true)
     love.timer.sleep(1)
     DRONE:play()
-    DRONE:setVolume(0.5)
+    DRONE:setVolume(0.45)
 end
 
 function love.update(dt)
-    dt = dt * 2
+    dt = dt * 1.7
     scripts.handle_fetch_threading(dt)
     scripts.handle_input()
     scripts.handle_pre_world_update(dt)
@@ -79,4 +78,5 @@ function love.draw()
     love.graphics.pop()
     scripts.systems.radar()
     scripts.systems.heading()
+    scripts.systems.get_convo()
 end

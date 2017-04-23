@@ -30,7 +30,27 @@ return function()
                 local z = E.move[1].position.rotation - ((-event.coords.y + 200 + CWIDTH) / 800) * math.pi + 0.5 * math.pi
                 E.move[1].mover.towards = z
             end
-            pprint(event)
+            local x, y = event.coords.x, event.coords.y
+
+            if current.choices and #current.choices > 0 then
+
+                if x >CWIDTH and x < 400+CWIDTH then
+                    local i =  1-math.floor((y-400)/32)
+                    if current.choices[i] then
+
+                        Core.propagate_state(current.choices[i])
+                    end
+                end
+            elseif current.next then
+                if x >CWIDTH and x < 400+CWIDTH then
+                    local i =  1-math.floor((y-400)/32)
+                    if i==1 then
+                        Core.propagate_state(current.next)
+
+                    end
+                end
+            end
+                pprint(event)
         end
     }
 end
