@@ -68,7 +68,7 @@ function Core.propagate_state(next)
 end
 
 return function()
-    love.graphics.printf(current.name, 50,80,380)
+    love.graphics.printf(current.name, 50,80,370)
     if current.choices and #current.choices > 0 then
         for k,v in ipairs(current.choices) do
                 love.graphics.setColor(0,180,0,255*ii)

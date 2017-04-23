@@ -15,7 +15,7 @@ return function()
         local dist = v.dist
         if not dist or dist > 2000 then dist = "<=>" else dist = math.floor(dist) end
 
-        love.graphics.print(dist, 200 + CWIDTH + 20 + (k -2) * 140, 45)
+        love.graphics.print(dist, 168 + CWIDTH + 20 + (k -2) * 140, 45)
     end
 
     love.graphics.setColor(255, 255, 255,255*ii)

@@ -1,11 +1,15 @@
 pprint = require 'lib.pprint'
+
+require "lib.bfs"
+error("A ")
+
 require 'lib.helpers.core_funcs'
 require 'lib.helpers.keyboard_input'
 require 'lib.ECFS'
 require 'lib.load_all_scripts'
 DRONE = love.audio.newSource("music/drone.ogg")
 
-STATE = "play"
+STATE = "start"
 function love.load()
     require 'scripts'
     scripts.systems.collision.init.functions.reset()
@@ -110,7 +114,7 @@ end
 BG = love.graphics.newImage("bg.png")
 
 ii = 0
-sentences = { "One day I woke up, and I was here", "I don't know anything from before I got here", "I'm all alone in this strange place" }
+sentences = { "One day I woke up, and I was here", "I don't know anything from before I got here", "I'm all alone in this strange vessel, slowly moving through a strange world." }
 drawers = {
     start = function(dt)
         if startThisFrame < 1 then
@@ -155,9 +159,9 @@ drawers = {
             love.graphics.setColor(255, 255, 255, 255 * (5 - startThisFrame))
         end
         love.graphics.setNewFont(24)
-        love.graphics.printf("The lonely captain", 82, 200, 300, "center")
+        love.graphics.printf("The lonely captain", 82, 170, 300, "center")
         love.graphics.setNewFont(14)
-        love.graphics.print("A game by Nander Voortman", 75, 350)
+        love.graphics.print("A game by Nander Voortman", 75, 400)
         love.graphics.setColor(255, 255, 255, 255)
     end
 }
