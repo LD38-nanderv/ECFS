@@ -1,7 +1,7 @@
 pprint = require 'lib.pprint'
 
 require "lib.bfs"
-error("A ")
+
 
 require 'lib.helpers.core_funcs'
 require 'lib.helpers.keyboard_input'
@@ -35,7 +35,6 @@ function love.load()
     core.addHandler(handler2.name, handler2.func)
     local handler2 = scripts.handlers.handle_wisker()
     core.addHandler(handler2.name, handler2.func)
-    pprint(handler2)
 
     -- add block
     local c = { type = "test", box = true, polygon = { { x = -100, y = 0 }, { x = 0, y = 100 }, { x = 100, y = 0 }, { x = 0, y = -100 } }, dynamic = true }
@@ -112,7 +111,8 @@ function love.update(dt)
 end
 
 BG = love.graphics.newImage("bg.png")
-
+F24 =         love.graphics.newFont(24)
+F14 =        love.graphics.newFont(14)
 ii = 0
 sentences = { "One day I woke up, and I was here", "I don't know anything from before I got here", "I'm all alone in this strange vessel, slowly moving through a strange world." }
 drawers = {
@@ -143,11 +143,10 @@ drawers = {
 
         love.graphics.setColor(255, 255, 255, 255 * math.min(1, startThisFrame))
 
-        love.graphics.setNewFont(24)
         love.graphics.printf("Your vessel crashed, and you are no more.", 82, 200, 300, "center")
-        love.graphics.setNewFont(14)
+        love.graphics.setFont(F24)
         love.graphics.setColor(255, 255, 255, 255 * math.max(1, math.min(startThisFrame-10)))
-
+        love.graphics.setFont(F14)
         love.graphics.print("Click to restart", 75, 350)
         love.graphics.setColor(255, 255, 255, 255)
     end,
@@ -158,9 +157,9 @@ drawers = {
         if startThisFrame > 4 then
             love.graphics.setColor(255, 255, 255, 255 * (5 - startThisFrame))
         end
-        love.graphics.setNewFont(24)
-        love.graphics.printf("The lonely captain", 82, 170, 300, "center")
-        love.graphics.setNewFont(14)
+        love.graphics.setFont(F24)
+        love.graphics.printf("The Lonely Captain", 82, 170, 300, "center")
+        love.graphics.setFont(F14)
         love.graphics.print("A game by Nander Voortman", 75, 400)
         love.graphics.setColor(255, 255, 255, 255)
     end
