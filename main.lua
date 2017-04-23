@@ -5,7 +5,7 @@ require 'lib.ECFS'
 require 'lib.load_all_scripts'
 DRONE = love.audio.newSource("music/drone.ogg")
 
-STATE = "start"
+STATE = "play"
 function love.load()
     require 'scripts'
     scripts.systems.collision.init.functions.reset()
@@ -140,8 +140,10 @@ drawers = {
         love.graphics.setColor(255, 255, 255, 255 * math.min(1, startThisFrame))
 
         love.graphics.setNewFont(24)
-        love.graphics.printf("Your ship crashed, and you are no more.", 82, 200, 300, "center")
+        love.graphics.printf("Your vessel crashed, and you are no more.", 82, 200, 300, "center")
         love.graphics.setNewFont(14)
+        love.graphics.setColor(255, 255, 255, 255 * math.max(1, math.min(startThisFrame-10)))
+
         love.graphics.print("Click to restart", 75, 350)
         love.graphics.setColor(255, 255, 255, 255)
     end,

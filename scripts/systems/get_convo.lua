@@ -9,11 +9,21 @@ function load_new_CONVO(file)
     local raw_json_text =love.filesystem.read("data/"..file)
     CONVO = JSON:decode(raw_json_text) -- decode example
     current = CONVO[1]
+    local currentt
     for k,v in ipairs(CONVO) do
+        if CONVO[k].actor == "FIRST" then
+            currentt = CONVO[k].next
+
+        end
         CONVO[v.id] = v
         CONVO[k] = nil
     end
+    if currentt then
+        Core.propagate_state(currentt)
+
+    end
 end
+
 
 function start_CONVO()
     load_new_CONVO("test.json")
@@ -38,6 +48,8 @@ local function interpret(state)
         end
     end
     if state.type == "Branch" then
+
+        pprint(CONVO_STATE)
         if CONVO_STATE[state.variable] and state.branches[CONVO_STATE[state.variable]] then
             Core.propagate_state(state.branches[CONVO_STATE[state.variable]])
         elseif state.branches._default then
