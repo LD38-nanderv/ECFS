@@ -7,7 +7,7 @@
 --
 local directions = { { y = 2000, x = 200 }, { y = 2000, x = 0 }, { y = 2000, x = -2000 } }
 return function()
-    love.graphics.setColor(255, 0, 0)
+    love.graphics.setColor(255, 0, 0,255*ii)
 
 
 
@@ -18,7 +18,7 @@ return function()
         love.graphics.print(dist, 200 + CWIDTH + 20 + (k -2) * 140, 45)
     end
 
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(255, 255, 255,255*ii)
 end
 
 

@@ -15,8 +15,11 @@ function load_new_CONVO(file)
     end
 end
 
-load_new_CONVO("test.json")
+function start_CONVO()
+    load_new_CONVO("test.json")
+end
 
+start_CONVO()
 local function interpret(state)
     if state.name and string.sub(state.name, 1, 4) == "!@#$" then
         load_new_CONVO(string.sub(state.name, 5))
@@ -47,6 +50,7 @@ end
 
 function Core.propagate_state(next)
     local nxt = CONVO[next]
+    pprint (nxt)
     current = nxt
     interpret(nxt)
 end
@@ -55,19 +59,19 @@ return function()
     love.graphics.printf(current.name, 50,80,380)
     if current.choices and #current.choices > 0 then
         for k,v in ipairs(current.choices) do
-                love.graphics.setColor(0,180,0)
+                love.graphics.setColor(0,180,0,255*ii)
                 love.graphics.rectangle("fill",CWIDTH+1, 400-CWIDTH*(k-1), 400-2,CWIDTH-1)
-                love.graphics.setColor(0,200,0)
+                love.graphics.setColor(0,200,0,255*ii)
                 love.graphics.rectangle("line",CWIDTH+1, 400-CWIDTH*(k-1), 400-2, CWIDTH-1)
-                love.graphics.setColor(255,255,255)
+                love.graphics.setColor(255,255,255,255*ii)
                 love.graphics.print(CONVO[v].name, 60, 410-CWIDTH*(k-1))
         end
     elseif current.next then
-        love.graphics.setColor(0,180,0)
+        love.graphics.setColor(0,180,0,255*ii)
         love.graphics.rectangle("fill",CWIDTH+1, 400, 400-2,CWIDTH-1)
-        love.graphics.setColor(0,200,0)
+        love.graphics.setColor(0,200,0,255*ii)
         love.graphics.rectangle("line",CWIDTH+1, 400, 400-2, CWIDTH-1)
-        love.graphics.setColor(255,255,255)
+        love.graphics.setColor(255,255,255,255*ii)
         love.graphics.print("Continue..", 60, 410)
     end
 end

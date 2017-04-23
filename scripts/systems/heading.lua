@@ -32,7 +32,7 @@ return function()
     love.graphics.setCanvas()
 
 
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(255, 255, 255,255*ii)
 
     local quad = love.graphics.newQuad(math.floor(1600 * (mh) / (math.pi * 2)), 0, 400, CWIDTH, texture:getDimensions())
     love.graphics.draw(texture, quad, CWIDTH, 0, 0)
@@ -44,9 +44,9 @@ return function()
     local quad = love.graphics.newQuad(math.floor(1600 * (mh + 1.5 * math.pi) / (math.pi * 2)), 0, 400, CWIDTH, texture:getDimensions())
     love.graphics.draw(texture, quad, 1, 400 + CWIDTH, (-.5 * math.pi))
 
-    love.graphics.setColor(128, 128, 128)
+    love.graphics.setColor(128, 128, 128,255*ii)
 
     love.graphics.line(200 + CWIDTH - 8, 32, 200 + CWIDTH, 24, 200 + CWIDTH + 8, 32)
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(255, 255, 255,255*ii)
 end
 

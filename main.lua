@@ -4,6 +4,8 @@ require 'lib.helpers.keyboard_input'
 require 'lib.ECFS'
 require 'lib.load_all_scripts'
 DRONE = love.audio.newSource("music/drone.ogg")
+
+STATE = "start"
 function love.load()
     require 'scripts'
     scripts.systems.collision.init.functions.reset()
@@ -38,15 +40,14 @@ function love.load()
 
     local m = require 'data.map'
 
-    for k,v in pairs(m.layers[1].objects) do
-        for i=-2, 2 do
+    for k, v in pairs(m.layers[1].objects) do
+        for i = -2, 2 do
             for j = -2, 2 do
-        local c = { type = "test", box = true, polygon = v.polyline, dynamic = true }
-        local ent = { collision = c, position = {x=v.x+i*3200, y=v.y+j*3200, rotation=v.rotation} }
-        core.entity.add(ent)
+                local c = { type = "test", box = true, polygon = v.polyline, dynamic = true }
+                local ent = { collision = c, position = { x = v.x + i * 3200, y = v.y + j * 3200, rotation = v.rotation } }
+                core.entity.add(ent)
             end
         end
-
     end
     DRONE:setLooping(true)
     love.timer.sleep(1)
@@ -54,29 +55,112 @@ function love.load()
     DRONE:setVolume(0.45)
 end
 
+startcounter = 1
+startThisFrame = 0
+updaters = {
+    start = function(dt)
+        startThisFrame = startThisFrame + dt
+        if startThisFrame > 5 then
+            startThisFrame = 0
+            startcounter = startcounter + 1
+            if startcounter > #sentences then
+                STATE = "credits"
+            end
+        end
+    end,
+    play = function(dt)
+        ii = math.min(1, ii + dt)
+        if ii < 1 then
+            dt = 0
+        else
+            dt = dt * 1.7
+        end
+        scripts.handle_fetch_threading(dt)
+        scripts.handle_input()
+        scripts.handle_pre_world_update(dt)
+        scripts.world_update(dt)
+        scripts.handle_checkers(dt)
+    end,
+    death = function(dt)
+        startThisFrame = math.min(1, startThisFrame + dt)
+
+        if love.mouse.isDown(1) then
+            STATE = "play"
+            CONVO_STATE = {}
+            start_CONVO()
+            E.move[1].position = { x = 0, y = 0, rotation = math.pi }
+            E.move[1].mover.towards = math.pi
+        end
+    end,
+    credits = function(dt)
+        startThisFrame = startThisFrame + dt
+        if startThisFrame > 5 then
+            STATE = "play"
+        end
+    end
+}
 function love.update(dt)
-    dt = dt * 1.7
-    scripts.handle_fetch_threading(dt)
-    scripts.handle_input()
-    scripts.handle_pre_world_update(dt)
-    scripts.world_update(dt)
-    scripts.handle_checkers(dt)
+    local PS = STATE
+    updaters[STATE](dt)
+    if PS ~= STATE then
+        updaters[STATE](dt)
+    end
 end
 
 BG = love.graphics.newImage("bg.png")
 
+ii = 0
+sentences = { "One day I woke up, and I was here", "I don't know anything from before I got here", "I'm all alone in this strange place" }
+drawers = {
+    start = function(dt)
+        if startThisFrame < 1 then
+            love.graphics.setColor(255, 255, 255, 255 * startThisFrame)
+        end
+        if startThisFrame > 4 then
+            love.graphics.setColor(255, 255, 255, 255 * (5 - startThisFrame))
+        end
+        love.graphics.printf(sentences[startcounter], 82, 200, 300, "center")
+        love.graphics.setColor(255, 255, 255, 255)
+    end,
+    play = function(dt)
+        love.graphics.setColor(255, 255, 255, ii * 255)
+        love.graphics.draw(BG, 0, 0)
+        scripts.systems.radar()
+        scripts.systems.heading()
+        scripts.systems.get_convo()
+    end,
+    death = function(dt)
+        love.graphics.setColor(255, 255, 255, 255 * math.min(1, startThisFrame))
+        love.graphics.draw(BG, 0, 0)
+        scripts.systems.heading()
+        ii = (1 - math.min(1, startThisFrame))
+        scripts.systems.radar()
+        scripts.systems.get_convo()
+
+        love.graphics.setColor(255, 255, 255, 255 * math.min(1, startThisFrame))
+
+        love.graphics.setNewFont(24)
+        love.graphics.printf("Your ship crashed, and you are no more.", 82, 200, 300, "center")
+        love.graphics.setNewFont(14)
+        love.graphics.print("Click to restart", 75, 350)
+        love.graphics.setColor(255, 255, 255, 255)
+    end,
+    credits = function()
+        if startThisFrame < 1 then
+            love.graphics.setColor(255, 255, 255, 255 * startThisFrame)
+        end
+        if startThisFrame > 4 then
+            love.graphics.setColor(255, 255, 255, 255 * (5 - startThisFrame))
+        end
+        love.graphics.setNewFont(24)
+        love.graphics.printf("The lonely captain", 82, 200, 300, "center")
+        love.graphics.setNewFont(14)
+        love.graphics.print("A game by Nander Voortman", 75, 350)
+        love.graphics.setColor(255, 255, 255, 255)
+    end
+}
+
 
 function love.draw()
-    love.graphics.draw(BG, 0, 0)
-    love.graphics.push()
-    local p = E.move[1].position
-
-    -- rotate around the center of the screen by angle radians
-    love.graphics.translate(-p.x+200,-p.y+200)
-    --scripts.systems.collision.debug_draw(dt)
-    --scripts.systems.draw_wiskers(dt)
-    love.graphics.pop()
-    scripts.systems.radar()
-    scripts.systems.heading()
-    scripts.systems.get_convo()
+    drawers[STATE]()
 end
